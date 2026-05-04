@@ -14,8 +14,11 @@ describe('Orange HRM Tests', () => {
     lastNameField: '[name="lastName"]',
     genericField: '.oxd-input--active',
     dateField: '[placeholder="yyyy-dd-mm"]',
-    dateCloseButton: ".--close",
-    submitButton: '[type="submit"]'
+    genericCombobox: '.oxd-select-text--arrow',
+    secondItemCombobox: '.oxd-select-dropdown > :nth-child(3)',
+    thirdItemCombobox: '.--selected',
+    dateCloseButton: '.--close',
+    submitButton: '[type="submit"]',
    }  
    
   it.only('User Info Update - Success', () => {
@@ -34,9 +37,15 @@ describe('Orange HRM Tests', () => {
     cy.get(selectorsList.genericField).eq(5).clear().type('DriversLicenseTest')
     cy.get(selectorsList.genericField).eq(6).clear().type('2026-30-04')
     cy.get(selectorsList.dateCloseButton).click()
-    cy.get(selectorsList.submitButton).eq(0).click()
+    cy.get(selectorsList.submitButton).eq(0).click({ force: true })
     cy.get('body').should('contain', 'Successfully Updated')
     cy.get('.oxd-toast-close')
+
+    cy.get(selectorsList.genericCombobox).eq(0).click({ force: true })
+    cy.get(selectorsList.secondItemCombobox).click()
+    cy.get(selectorsList.genericCombobox).eq(1).click({ force: true })
+    cy.get(selectorsList.thirdItemCombobox).click()
+    
     // cy.get(selectorsList.genericField).eq(8).clear().type('ssnNumberTest') - campo excluido do site orangehrm
     // cy.get(selectorsList.genericField).eq(9).clear().type('sinNumberTest') - campo excluido do site orangehrm
   })
